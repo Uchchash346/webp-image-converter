@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Webp Converter</title>
+</head>
+
+<body>
+    <div class="convert">
+        <h1>Convert image to Webp format</h1>
+        <input type="file" accept="image/*" name="convert" id="userImage" onchange="convertImage(event)">
+        <div class="mask">
+            <h4>Upload an Image</h4>
+        </div>
+    </div>
+    <div class="images">
+        <div>
+            <h2>Original Image</h2>
+            <img src="" id="Uimage" alt="">
+        </div>
+        <div>
+            <h2>Webp Image</h2>
+            <img src="" id="Wimage" alt="">
+        </div>
+    </div>
+
+    <script>
+        const Uimage = document.querySelector('#Uimage');
+        const Wimage = document.querySelector('#Wimage');
+        function convertImage(event) {
+            if (event.target.files.length > 0) {
+                // show user image
+                let src = URL.createObjectURL(event.target.files[0]);
+                Uimage.src = src;
+
+                // Convert User Image to Canvas
+                let canvas = document.createElement('canvas');
+                let ctx = canvas.getContext("2d");
+
+                let userImage = new Image();
+                userImage.src = src;
+
+                userImage.onload = function () {
+                    canvas.width = userImage.width;
+                    canvas.height = userImage.height;
+                    ctx.drawImage(userImage, 0, 0);
+
+                    // convert canvas to webp image
+                    let webpImage = canvas.toDataURL("image/webp");
+                    Wimage.src = webpImage;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
